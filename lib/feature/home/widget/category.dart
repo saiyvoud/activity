@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class Category extends StatefulWidget {
-  const Category({super.key});
+class CategoryWidget extends StatefulWidget {
+  const CategoryWidget({super.key});
 
   @override
-  State<Category> createState() => _CategoryState();
+  State<CategoryWidget> createState() => _CategoryWidgetState();
 }
 
-class _CategoryState extends State<Category> {
+class _CategoryWidgetState extends State<CategoryWidget> {
   int currentIndex = 0;
 
-  _onTap(index) {
+  onTap(index) {
     setState(() {
       currentIndex = index;
     });
@@ -27,31 +27,36 @@ class _CategoryState extends State<Category> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      primary: false,
-      itemCount: category.length,
-      itemBuilder: (context, index) {
-        return Container(
-          decoration: BoxDecoration(
-            color: currentIndex == index ? Colors.blueAccent : Colors.grey,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: TextButton(
-            onPressed: _onTap(index),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                category[index],
-                style: TextStyle(
-                  color: currentIndex == index ? Colors.white : Colors.black,
-                  fontSize: 12,
+    return Container(
+      height: 40,
+      child: ListView.builder(
+        shrinkWrap: true,
+        primary: false,
+        scrollDirection: Axis.horizontal,
+        itemCount: category.length,
+        itemBuilder: (context, index) {
+          return Container(
+            margin: EdgeInsets.symmetric(horizontal: 2),
+            decoration: BoxDecoration(
+              color: currentIndex == index ?  Color.fromARGB(255, 4, 28, 248) : Colors.grey,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: TextButton(
+              onPressed: ()=> onTap(index),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  category[index],
+                  style: TextStyle(
+                    color: currentIndex == index ? Colors.white : Colors.black,
+                    fontSize: 12,
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

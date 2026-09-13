@@ -29,12 +29,17 @@ class _HomePageState extends State<HomePage> {
                 Spacer(),
                 Container(
                   height: 50,
-                  width: 100,
+                 
                   child: Row(
                     children: [
                       Text("LA"),
-                      Image.network(
-                        "https://cdn-icons-png.flaticon.com/512/197/197568.png",
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.network(
+                          "https://cdn-icons-png.flaticon.com/512/197/197568.png",
+                         
+                         
+                        ),
                       ),
                     ],
                   ),
@@ -55,8 +60,11 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             // Category
-            Category(),
-            Row(children: [Text("Event"), Spacer(), Text("All")]),
+            CategoryWidget(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(children: [Text("Event"), Spacer(), Text("All")]),
+            ),
             Product(),
           ],
         ),

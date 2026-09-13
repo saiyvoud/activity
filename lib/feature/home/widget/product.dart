@@ -38,36 +38,49 @@ class _ProductState extends State<Product> {
       "title": "Run the canyon just outside",
       "date": "28/8/2026",
       "time": "8:00 - 12:00",
-      "image": "https://d2mkojm4rk40ta.cloudfront.net/us-east-1-src/prod/clientUploads/2026-05/04/1/72731/7747e22b-2c22-41ca-bff7-64e13e80cf61-bP-qPu.png",
+        "image": "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/music-concert-flyer-design-template-2d59fde071fcf31f0d8a138b3a6e516d_screen.jpg?ts=1737708040",
        "address": "Bangkok Thailand"
     },
   ];
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      shrinkWrap: true,
+      primary: false,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
+        childAspectRatio: 0.55
       ),
       itemCount: product.length,
       itemBuilder: (context, index) {
         return Container(
-          decoration: BoxDecoration(color: Colors.blueAccent,borderRadius: BorderRadius.circular(10)),
+          decoration: BoxDecoration(color: Color.fromARGB(255, 4, 28, 248),borderRadius: BorderRadius.circular(10)),
           child: Column(children: [
-            Image.network(product[index]['image'],fit: BoxFit.cover,height: 120,width: double.infinity,),
+            Image.network(product[index]['image'],fit: BoxFit.cover,height: 300,width: double.infinity,),
             Text(product[index]['title'],style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
             Row(children: [
-              Icon(Icons.calendar_today),
-              Text(product[index]['date']),
+              Icon(Icons.calendar_today,color: Colors.white, ),
+              SizedBox(width: 2),
+              Text(product[index]['date'],style: TextStyle(color: Colors.white),),
             ],),
             Row(children: [
-              Icon(Icons.alarm),
-              Text(product[index]['time']),
+              Icon(Icons.alarm,color: Colors.white,),
+              SizedBox(width: 2),
+              Text(product[index]['time'],style: TextStyle(color: Colors.white)),
             ],),
              Row(children: [
-              Icon(Icons.location_on),
-              Text(product[index]['address']),
+              Icon(Icons.location_on,color: Colors.white,),
+              SizedBox(width: 2),
+              Text(product[index]['address'],style: TextStyle(color: Colors.white)),
             ],),
-            TextButton(onPressed: (){}, child: Text("Buy",style: TextStyle(color: Colors.white),)),
+            Container(
+              decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(10)),
+              margin: EdgeInsets.symmetric(vertical: 10),
+              child: TextButton(
+                onPressed: (){}, child: Text("Buy Now",style: TextStyle(fontSize: 12, color: Color.fromARGB(255, 4, 28, 248),fontWeight: FontWeight.bold),)),
+            ),
           ],),
         );
       },
