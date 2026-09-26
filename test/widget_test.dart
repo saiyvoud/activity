@@ -1,30 +1,43 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
+import 'package:activity/core/app_state.dart';
+import 'package:activity/core/models.dart';
+import 'package:activity/data/events.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:activity/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  final state = AppState.instance;
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  test('login, buy ticket, use ticket, notifications', () {
+    expect(state.login('demo@gmail.com', 'wrong'), isNotNull);
+    expect(state.login('demo@gmail.com', '123456'), isNull);
+    expect(state.isLoggedIn, isTrue);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    final bought = state.buyTickets(kEvents.first, 2, 'BCEL One');
+    expect(bought.length, 2);
+    expect(state.activeTickets.length, 2);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    state.useTicket(bought.first);
+    expect(bought.first.status, TicketStatus.used);
+    expect(state.activeTickets.length, 1);
+    expect(state.usedTickets.length, 1);
+
+    expect(state.unreadCount, greaterThan(0));
+    state.markAllRead();
+    expect(state.unreadCount, 0);
+
+    state.logout();
+    expect(state.isLoggedIn, isFalse);
+  });
+
+  test('register rejects duplicate email', () {
+    expect(
+      state.register(name: 'A', email: 'demo@gmail.com', phone: '12345678', password: '123456'),
+      isNotNull,
+    );
+    expect(
+      state.register(name: 'New', email: 'new@gmail.com', phone: '12345678', password: '123456'),
+      isNull,
+    );
+    expect(state.myTickets, isEmpty);
+    state.logout();
   });
 }

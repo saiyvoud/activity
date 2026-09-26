@@ -1,57 +1,44 @@
+import 'package:activity/core/theme.dart';
 import 'package:flutter/material.dart';
 
-class CategoryWidget extends StatefulWidget {
-  const CategoryWidget({super.key});
+class CategoryWidget extends StatelessWidget {
+  final List<String> categories;
+  final int selected;
+  final ValueChanged<int> onChanged;
 
-  @override
-  State<CategoryWidget> createState() => _CategoryWidgetState();
-}
-
-class _CategoryWidgetState extends State<CategoryWidget> {
-  int currentIndex = 0;
-
-  onTap(index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
-
-  List<String> category = [
-    "ທັງໝົດ",
-    "ສຳມະນາ",
-    "ທ່ອງທ່ຽວ",
-    "ກິດຈະກຳ",
-    "ຈອງປີ້",
-    "ຄອສອອນລາຍ",
-  ];
+  const CategoryWidget({
+    super.key,
+    required this.categories,
+    required this.selected,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 40,
       child: ListView.builder(
-        shrinkWrap: true,
-        primary: false,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         scrollDirection: Axis.horizontal,
-        itemCount: category.length,
+        itemCount: categories.length,
         itemBuilder: (context, index) {
-          return Container(
-            margin: EdgeInsets.symmetric(horizontal: 2),
-            decoration: BoxDecoration(
-              color: currentIndex == index ?  Color.fromARGB(255, 4, 28, 248) : Colors.grey,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: TextButton(
-              onPressed: ()=> onTap(index),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  category[index],
-                  style: TextStyle(
-                    color: currentIndex == index ? Colors.white : Colors.black,
-                    fontSize: 12,
-                  ),
-                ),
+          final isSelected = selected == index;
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3),
+            child: ChoiceChip(
+              label: Text(categories[index]),
+              selected: isSelected,
+              showCheckmark: false,
+              onSelected: (_) => onChanged(index),
+              selectedColor: kPrimary,
+              backgroundColor: Colors.white,
+              labelStyle: TextStyle(
+                color: isSelected ? Colors.white : Colors.black87,
+                fontSize: 12,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+                side: BorderSide(color: isSelected ? kPrimary : Colors.grey.shade300),
               ),
             ),
           );
