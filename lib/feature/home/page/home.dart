@@ -28,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     }).toList();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
